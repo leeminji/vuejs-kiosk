@@ -1,22 +1,32 @@
 <template>
     <div class="Pagination">
         <button class="Pagination__btn Pagination__btn-prev" @click="pagePrev" v-show="pageIndex > 0">이전</button>
-        <button class="Pagination__num" v-for="n in col" v-bind:key="n" @click="pageOn((pageIndex*col)+n)" href="">{{(pageIndex*col)+n}}</button>
+        
+        <button 
+        class="Pagination__num" 
+        v-for="n in col" 
+        v-bind:key="n" 
+        v-bind:class="[(pageIndex*col)+n == currentIndex ? 'Pagination__num-active' : '']"
+        @click="pageOn(n)" href="">
+        {{(pageIndex*col)+n}}</button>
+
         <button class="Pagination__btn Pagination__btn-next" @click="pageNext" v-show="pageIndex < totalPage ">다음</button> 
     </div>
 </template>
 <script>
+import {eventBus} from '@/main'
+
 export default {
-    props : ["totalCount", "col", "pageIndex"],
+    props : ["totalCount", "col", "pageIndex", "currentIndex"],
     mounted(){
-          console.log("mounted");
     },
     created(){
-        console.log("created");     
+        
     },
     data(){
         return{
-            totalPage : Math.floor(this.totalCount / this.col)-1
+            totalPage : Math.floor(this.totalCount / this.col)-1,
+            pIndex : 0
         }
     },
     computed : {
@@ -28,21 +38,21 @@ export default {
     },
     methods : {
         pagePrev(){
-            console.log("perv "+this.pageIndex);
             if( this.pageIndex < 0 ){
                 return;
             }           
             this.$emit("pagePrev");
         },
         pageNext(){
-            console.log(this.totalPage);
             if( this.pageIndex+1 > this.totalPage ){
                 return;
             }
             this.$emit("pageNext");
         },
         pageOn(num){
-            this.$emit("pageOn", num);
+          //페이지숫자
+          let index = this.pageIndex * this.col + num  ;
+          this.$emit("pageOn", index);
         }
     }
 }
@@ -57,16 +67,14 @@ export default {
             min-width:2em;
             padding:0 2px;
             height:2em;
+            margin:0 2px;
             line-height: 2em;
             text-align: center;
             border:1px solid #eee;
             color:#fff;
-            
             &-prev{
-
             }
             &-next{
-
             }
         }
         &__num{
@@ -77,7 +85,10 @@ export default {
             text-align: center;
             border:1px solid #eee;
             color:#fff;
-            margin:0 1px;
+            margin:0 2px;
+            &-active{
+                background:#ff0000
+            } 
         }
     }
 </style>

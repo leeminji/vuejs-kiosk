@@ -1,7 +1,11 @@
 <template>
     <div class="HonorItem">
         <div class="HonorItem__img">
-            <img src="" alt="">
+            <vue-load-image>
+            <img slot="image" v-bind:src="honorItem.image" />
+            <img slot="preloader"/>
+            <div slot="error">error message</div>
+            </vue-load-image>
         </div>
         <div class="HonorItem__info">
             <ol class="clear">
@@ -16,16 +20,17 @@
 
 <script>
 import {common} from "../mixins/common"
-
+import VueLoadImage from 'vue-load-image'
 export default {
     props : ['honorItem','sliderOption'],
-    created (){
-       
+    components : {
+        'vue-load-image': VueLoadImage
     },
-    data (){
-        return {
-
-        }
+    created (){
+         
+    },
+    mounted(){
+      
     },
     computed : {
         outputPrice(){
