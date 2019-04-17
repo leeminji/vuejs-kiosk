@@ -4,7 +4,7 @@
     <div class="Donor">
       <!-- 결과 -->
       <div class="Donor__result">
-        <h2 class="Donor__result__title"><span class="tit">검색결과</span><span class="txt">총 9건 검색결과 입니다.</span></h2>
+        <h2 class="Donor__result__title"><span class="tit">검색결과</span><span class="txt">총 {{searchResult.length}}건 검색결과 입니다.</span></h2>
         <div class="Donor__result__list">
           <ul class="clear clearfix">
             <li
