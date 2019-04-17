@@ -18,9 +18,7 @@
 </script>
 <style scoped lang="scss">
     .Title{
-        position: absolute;
-        left:3em;
-        top:3em;
+        padding:3em;
         &__eng{
             color:#fff;
             span {

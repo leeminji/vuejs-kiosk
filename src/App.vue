@@ -3,7 +3,7 @@
     <div id="nav" class="Navigation">
       <ul class="Navigation__ul">
         <li class="Navigation__list"><router-link to="/"><span>명예의전당</span></router-link></li>
-        <li class="Navigation__list"><router-link to="/about"><span>기부자소개</span></router-link> </li>
+        <li class="Navigation__list"><router-link to="/donor"><span>기부자소개</span></router-link> </li>
         <li class="Navigation__list"><router-link to="/blog"><span>역대 이사장 및 총장</span></router-link></li>
         <li class="Navigation__list"><router-link to="/blog"><span>명예박사 소개</span></router-link></li>
         <li class="Navigation__list"><router-link to="/blog"><span>원광대학교 연혁</span></router-link></li>

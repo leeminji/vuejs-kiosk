@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import honor from './views/Honor.vue'
 import blog from './views/Blog.vue'
-import about from './views/About.vue'
+import about from './views/Donor.vue'
 
 Vue.use(Router)
 
@@ -16,8 +16,8 @@ export default new Router({
       component: honor
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/donor',
+      name: 'donor',
       component: about
     },
     {

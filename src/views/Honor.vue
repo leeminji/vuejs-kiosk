@@ -26,7 +26,7 @@
 
 <script>
 // @ is an alias to /src
-import 'swiper/dist/css/swiper.css'
+
 import { swiper, swiperSlide, swiperPlugins, pagination } from 'vue-awesome-swiper'
 import TitleComponent from '@/components/common/Title.vue'
 import HonorItemComponent from '@/components/HonorItem.vue'
@@ -62,10 +62,15 @@ export default {
         grabCursor : true,
         setWrapperSize :true,
         autoHeight: true,
-        loop : false,
+        loop : true,
+        speed: 1000,
         pagination: {
           el: '.swiper-pagination',
-          type: 'bullets',
+          type: 'bullets', // "bullets", "fraction", "progressbar" or "custom"
+          clickable : true,
+          renderBullet(index, className){
+            return `<span class="${className} swiper-pagination-bullet-custom">${index+1}</span>`
+          }
         },
         paginationClickable :true,
         prevButton:'.swiper-button-prev',
@@ -85,7 +90,6 @@ export default {
     HonorItemComponent,
     swiper,
     swiperSlide,
-    pagination
   },
   methods : {
     callback(){
@@ -107,23 +111,24 @@ export default {
 
       });
 
-      //페이지네이션 수정
-      let p = document.getElementsByClassName('swiper-pagination-bullet');
-      for(let i=0;i<p.length;i++){
-        p[i].innerHTML = "<span>"+(i+1)+"</span>";
-      }
+      //페이지네이션 수정 swiper-pagination Slider__pagination swiper-pagination-bullets
+      // let p = document.getElementsByClassName('swiper-pagination-bullet');
+      // for(let i=0;i<p.length;i++){
+      //   p[i].innerHTML = "<span>"+(i+1)+"</span>";
+      // }
   }
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
   .Slider{
-    padding-top:10em;
+    margin-top:3em;
     &__btn{
       a{
         position:absolute;
         top:50%;
-        margin-top:-37px;
+        margin-top:-1.5em;
         width:10em;
+        height:5em;
         overflow: hidden;
         text-align: center
       }
@@ -138,14 +143,26 @@ export default {
       height: 400px;
     }
     &__pagination{
+      z-index: 100;
       > span{
-        margin:0;
+        display: inline-block;
         width:2em;
-        line-height:2em;
-        text-align:center;
-        border:1px solid #eee;
+        height: 2em;
+        line-height: 2em;
+        border:1px solid #222;
+        margin:0 .2em;
+        color:#666;
+      }
+      > span:hover{
+        border-color:#eee;
+        color:#eee;
+      }
+      > .swiper-pagination-bullet-active{
+        border-color:#fff;
+        color:#fff
       }
     }
   }
+  
 
 </style>
