@@ -1,8 +1,5 @@
 <template>
 	<div class="Keyboard">
-		<div class="Keyboard__inputArea">
-			<input type="text">
-		</div>
 		<div class="simple-keyboard hg-theme-default hg-layout-default">
 			<div class="hg-row">
 				<div class="hg-button hg-standardBtn" data-skbtn="`" data-skbtnuid="default-r0b0" data-displaylabel="`"><span>`</span></div>

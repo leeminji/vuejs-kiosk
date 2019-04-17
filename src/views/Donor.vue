@@ -7,21 +7,26 @@
         <h2 class="Donor__result__title"><span class="tit">검색결과</span><span class="txt">총 9건 검색결과 입니다.</span></h2>
         <div class="Donor__result__list">
           <ul class="clear clearfix">
-            <li 
-              v-for="(item, index) in donorList "
+            <li
+              v-for="(item, index) in searchResult "
               v-bind:key="index">
               <div class="name">{{item.name}}</div>
               <div class="price">{{item.price}}</div>
             </li>
+            <li v-if="searchResult.length == 0" class="empty">검색된 결과가 없습니다.</li>
           </ul>
         </div>
       </div>
       <!-- //결과 -->
       <!-- 검색 -->
       <div class="Donor__search">
-        <div class="Donor_search_input">
-          <input type="text"  v-model="search" v-on="filterList" placeholder="search title..">
-          <KeyboardComponet />
+        <div class="Donor__search__input">
+          <input type="text"  v-model="search" v-on:change="searchResult" placeholder="검색어를 입력해주세요.">
+        </div>
+        <KeyboardComponet />
+        <div class="Donor__search__button">
+          <button><span>다시검색</span></button>
+          <button><span>검색</span></button>
         </div>
       </div>
       <!-- //검색 -->
@@ -45,6 +50,7 @@ import "simple-keyboard/build/css/index.css";
     titleEng:"WonKwang Donor",
     titleKor:"기부자 소개",
     search :"",
+    searchList : [],
     donorList : [
       {name:'(사)국제티클럽', price:'1천만원~5천만원'},
       {name:'(사)현대', price:'1천만원~5천만원'},
@@ -71,19 +77,18 @@ import "simple-keyboard/build/css/index.css";
    
   },
   methods : {
-
+ 
   },
   computed : {
-    filterList(){
-
-      if( this.search.length < 0 ) return;
-      console.log(this.search);
+    searchResult(){
+      if( this.search.length < 0 ) return this.donorList;
       
-      this.donorList.filter((item)=>{
-          return item.name.indexOf(this.search) > -1;
+      let searchList = [];
+      searchList = this.donorList.filter( (item, index, arr) =>{
+        return (item.name.indexOf(this.search) > -1);
       });
 
-      //console.log(this.donorList);
+      return searchList;
     }
   }
  }
@@ -128,7 +133,6 @@ import "simple-keyboard/build/css/index.css";
         padding-right:1em;
         height:320px;
         overflow-y:auto;
-
         li{
           position: relative;
           padding-left:10em;
@@ -142,9 +146,6 @@ import "simple-keyboard/build/css/index.css";
             background:#CD853F;
             right:9em;
           }
-          span{
-            
-          }
           .name{
             position: absolute;
             left:0;
@@ -154,7 +155,10 @@ import "simple-keyboard/build/css/index.css";
           .price{
             float:right;
           }
-
+        }
+        li.empty{
+          padding-left:0;
+          text-align: center;
         }
       }
     }
@@ -165,6 +169,33 @@ import "simple-keyboard/build/css/index.css";
       width:52%;
       height:100%;
       background:#fff;
+
+      &__input{
+        border-bottom:1px solid #D2691E;
+        margin-bottom:2em;
+        input{
+          border:0;
+          background:none;
+          width:100%;
+          box-sizing: border-box;
+          text-align: center;
+          height: 3em;
+        }
+      }
+
+      &__button{
+        text-align: center;
+        padding-top:1em;
+        button{
+          margin:0 3px;
+          display:inline-block;
+          border-radius: 3em;
+          line-height: 3em;
+          width:10em;
+          background:#8B4513;
+          color:#fff;
+        }
+      }
     }
   }
 </style>
