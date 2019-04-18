@@ -2,13 +2,16 @@
     <div class="Page Bg1">
       <TitleComponent v-bind:titleEng="titleEng" v-bind:titleKor="titleKor"></TitleComponent>
       <SubMenuComponent :menuList="subMenu" :menuIndex="menuIndex" @menuClick="menuChange" />
-      <HistoryItemComponent :itemList="searchList" v-if="searchList != null"></HistoryItemComponent>
+      <transition name="fade">
+        <HistoryItemComponent :itemList="searchList" v-show="searchList != null"></HistoryItemComponent>
+      </transition>
     </div>
 </template>
 <script>
 import TitleComponent from '@/components/common/Title'
 import SubMenuComponent from '@/components/common/SubMenu'
 import HistoryItemComponent from '@/components/HistoryItem'
+import { setTimeout } from 'timers';
 export default {
     components : {
         TitleComponent,
@@ -34,7 +37,11 @@ export default {
     methods :{
         menuChange(index){
             this.menuIndex = index;
-            this.sortListChange();
+            this.searchList = [];
+            setTimeout(()=>{
+                this.sortListChange();
+            },500)
+            
         },
         sortListChange(){
 
@@ -54,7 +61,7 @@ export default {
                 }
             });
 
-            console.log(resultList);
+            //console.log(resultList);
             this.searchList = resultList.sort(function(a, b){
                 if( a.year < b.year ){
                     return 1;
@@ -78,3 +85,11 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

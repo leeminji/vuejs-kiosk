@@ -7,10 +7,11 @@ import store from './store'
 //axios 추가
 import Vueaxios from 'vue-axios'
 import axios from 'axios'
+import hangul from 'hangul-js';
 
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios
-
+Vue.prototype.$axios = axios;
+Vue.prototype.$hangul = hangul;
 
 //이벤트버스설정
 export const eventBus = new Vue({

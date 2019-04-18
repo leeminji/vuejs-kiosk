@@ -21,9 +21,9 @@
       <!-- 검색 -->
       <div class="Donor__search">
         <div class="Donor__search__input">
-          <input type="text"  v-model="search" v-on:change="searchResult" placeholder="검색어를 입력해주세요.">
+          <input type="text"  v-model="search" :searchInput="search" v-on:change="searchResult" placeholder="검색어를 입력해주세요.">
         </div>
-        <KeyboardComponet />
+        <KeyboardComponet @btnDownkey="btnDownkey" />
         <div class="Donor__search__button">
           <button><span>다시검색</span></button>
           <button><span>검색</span></button>
@@ -49,6 +49,7 @@ import "simple-keyboard/build/css/index.css";
     menuCount : 1,
     titleEng:"WonKwang Donor",
     titleKor:"기부자 소개",
+    keyboardArr : [],
     search :"",
     searchList : [],
     donorList : [
@@ -77,7 +78,15 @@ import "simple-keyboard/build/css/index.css";
    
   },
   methods : {
- 
+    btnDownkey(key){
+      console.log(key);
+      if( key == 'backspace' ){
+        this.keyboardArr.pop();
+      }else{
+       this.keyboardArr.push(key);
+      }
+      this.search = this.$hangul.assemble(this.keyboardArr);
+    }
   },
   computed : {
     searchResult(){

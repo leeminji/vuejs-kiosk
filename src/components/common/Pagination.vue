@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .Pagination{
         text-align: center;
         padding:1em 0;
