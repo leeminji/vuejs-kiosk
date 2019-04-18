@@ -4,8 +4,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+//axios 추가
+import Vueaxios from 'vue-axios'
+import axios from 'axios'
 
 Vue.config.productionTip = false
+Vue.prototype.$axios = axios
+
 
 //이벤트버스설정
 export const eventBus = new Vue({
