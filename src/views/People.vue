@@ -12,10 +12,7 @@
             </li>
         </ul>
     </div>
-    <div class="Pagination">
-        <button class="btn active"><span>1</span></button>
-        <button class="btn"><span>2</span></button>
-    </div>
+
     <transition name="rounter-main" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
         <ItemViewComponent :item="viewItem" v-if="viewItem !== null" @closeView="emptyView" />
     </transition>

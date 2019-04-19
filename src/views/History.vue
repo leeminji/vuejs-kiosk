@@ -41,7 +41,6 @@ export default {
             setTimeout(()=>{
                 this.sortListChange();
             },500)
-            
         },
         sortListChange(){
 

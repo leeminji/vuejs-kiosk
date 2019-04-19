@@ -1,58 +1,88 @@
 <template>
     <div class="Pagination">
-        <button class="Pagination__btn Pagination__btn-prev" @click="pagePrev" v-show="pageIndex > 0">이전</button>
-        
+        <button class="Pagination__btn Pagination__btn-prev" @click="pageStart" v-if="startPage > 1">처음</button>
+        <button class="Pagination__btn Pagination__btn-prev" @click="pagePrev" v-if="indexPage > 1">이전</button>
         <button 
         class="Pagination__num" 
-        v-for="n in col" 
+        v-for="n in setPageStart" 
         v-bind:key="n" 
-        v-bind:class="[(pageIndex*col)+n == currentIndex ? 'Pagination__num-active' : '']"
-        @click="pageOn(n)" href="">
-        {{(pageIndex*col)+n}}</button>
+        v-bind:class="{'Pagination__num-active' : indexPage == n }"
+        @click="pageOn(n)">{{n}}</button>
 
-        <button class="Pagination__btn Pagination__btn-next" @click="pageNext" v-show="pageIndex < totalPage ">다음</button> 
+        <button class="Pagination__btn Pagination__btn-next" @click="pageNext" v-if="indexPage < pageTotalCount">다음</button>
+        <button class="Pagination__btn Pagination__btn-next" @click="pageEnd" v-if="endPage < pageTotalCount">끝</button>
     </div>
 </template>
 <script>
 import {eventBus} from '@/main'
 
 export default {
-    props : ["totalCount", "col", "pageIndex", "currentIndex"],
-    mounted(){
-    },
-    created(){
-        
+    props : ["totalCount", "perPage", "perList"],
+    computed : {
+        setPageStart(){
+            let arr = [];
+            for(let i=this.startPage;i<=this.endPage;i++ ){
+                arr.push(i);
+            }
+            return arr; 
+        }
     },
     data(){
         return{
-            totalPage : Math.floor(this.totalCount / this.col)-1,
-            pIndex : 0
+            pageTotalCount : 0,
+            startPage: 0,
+            endPage : 0,
+            indexPage : 1
         }
     },
-    computed : {
-        pageCount(){
-            let totalPage = Math.floor(this.totalCount / this.col)-1;
-            this.totalPage = totalPage;
-            return totalPage;
+    created(){
+       
+    },
+    mounted(){
+        let totalpage = Math.floor(this.totalCount / this.perList);
+        if( this.totalCount % this.perList > 0){
+            totalpage++;
         }
+        this.pageTotalCount = totalpage;
+        console.log('mounted');
+
+         this.pageSetting();
     },
     methods : {
+        pageSetting(){
+            let startTemp = 0;
+            //나머지가 있는경우는 -1 을 해줘야한다. 그래야 바르게 동작..
+            if( this.indexPage % this.perPage != 0){
+                startTemp = Math.floor((this.indexPage)/this.perPage);
+            }else{
+                startTemp = Math.floor((this.indexPage)/this.perPage)-1;
+            }
+            this.startPage =(this.perPage* startTemp)+1;
+            this.endPage = this.startPage + this.perPage -1;
+
+            if( this.endPage > this.pageTotalCount ){
+                this.endPage = this.pageTotalCount;
+            }
+        },
+        pageStart(){
+            this.indexPage = 1;
+            this.pageSetting();
+        },
+        pageEnd(){
+            this.indexPage = this.pageTotalCount;
+            this.pageSetting();
+        },
         pagePrev(){
-            if( this.pageIndex < 0 ){
-                return;
-            }           
-            this.$emit("pagePrev");
+            this.indexPage--;
+            this.pageSetting();
         },
         pageNext(){
-            if( this.pageIndex+1 > this.totalPage ){
-                return;
-            }
-            this.$emit("pageNext");
+            this.indexPage++;
+            this.pageSetting();
         },
         pageOn(num){
-          //페이지숫자
-          let index = this.pageIndex * this.col + num  ;
-          this.$emit("pageOn", index);
+          this.indexPage = num;
+          this.$emit("pageOn", this.indexPage);
         }
     }
 }
@@ -70,8 +100,8 @@ export default {
             margin:0 2px;
             line-height: 2em;
             text-align: center;
-            border:1px solid #eee;
-            color:#fff;
+            border:1px solid rgba(255,255,255,0.5);
+            color:rgba(255,255,255,0.5);
             &-prev{
             }
             &-next{
@@ -83,11 +113,12 @@ export default {
             height:2em;
             line-height: 2em;
             text-align: center;
-            border:1px solid #eee;
-            color:#fff;
+            border:1px solid rgba(255,255,255,0.5);
+            color:rgba(255,255,255,0.5);
             margin:0 2px;
             &-active{
-                background:#ff0000
+                background:#422828;
+                color:#fff;
             } 
         }
     }

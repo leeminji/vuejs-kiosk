@@ -2,39 +2,83 @@
   <div class="Page Bg1">
     <TitleComponent v-bind:titleEng="titleEng" v-bind:titleKor="titleKor"></TitleComponent>
     <SubMenuComponent :menuList="subMenu" :menuIndex="menuIndex" @menuClick="menuChange" />
+    
+    <!-- 갤러리리스트 -->
     <div class="Gallery">
         <ul class="clear clearfix Gallery__list" v-if="itemList.length">
             <li class="Gallery__item"
-                v-for="item in currentList"
+                v-for="item in searchList"
                 v-bind:key="item.idx">
                 <a href="javascript:;" @click="showItem(item.idx)" class="link"><span class="skip">링크</span></a>
                 <span class="img"><img v-bind:src="item.img" alt=""></span>
             </li>
         </ul>
     </div>
-    <div class="Pagination">
-        <button class="btn active"><span>1</span></button>
-        <button class="btn"><span>2</span></button>
-    </div>
+    <!-- //갤러리리스트 -->
+    <PaginationComponent 
+        class="Gallery__pagination" 
+        @pageOn="pageOn"
+        :totalCount="itemList.length" 
+        :perPage="5"
+        :perList="galleryCount">
+    </PaginationComponent>
+    
     <transition name="rounter-main" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
-        <ItemViewComponent :item="viewItem" v-if="viewItem !== null" @closeView="emptyView" />
+        <ItemViewComponent :item="viewItem" v-if="viewItem !== null" @closeView="emptyView"  />
     </transition>
+
  </div>
 </template>
 <script>
 import TitleComponent from '@/components/common/Title'
 import SubMenuComponent from '@/components/common/SubMenu'
 import ItemViewComponent from '@/components/ItemView'
+import PaginationComponent from '@/components/common/Pagination'
+
  export default{
   name:'people',
+  created(){
+    this.$axios.get('/static/doctor.json')
+    .then((response)=>{
+        this.itemList = response.data;
+        this.sortListChange();
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+  },
   mounted(){
-      //현재페이지 리스트만 보임
-      this.currentList = this.itemList.filter((item, index)=>{
-          return index < 8;
-      });
-
+      this.setCurrentList();
   },
   methods : {
+    sortListChange(){
+            //아무것도 없을땐 빈값 리턴
+        this.searchList = [];
+        if( this.itemList.length == 0 ) return null;
+
+        const searchCategory = this.subMenu[this.menuIndex].category;
+
+        //메뉴인덱스값으로 판단하여 리턴
+        this.searchList = this.itemList.filter((item, index) =>{
+            console.log(item);
+            return item.category == searchCategory;
+        });
+        console.log(this.searchList);
+    },
+    setCurrentList(){
+        //현재페이지 리스트만 보임
+        this.searchList = this.itemList.filter((item, index)=>{
+            if( index >= (this.page-1)* this.galleryCount && index < this.page*this.galleryCount ){
+                console.log(index);
+                return item; 
+            }
+        });
+    },
+    pageOn(n){
+        console.log(n);
+        this.page = n;
+        this.setCurrentList();
+    },
     menuChange(index){
       this.menuIndex = index;
     },
@@ -45,14 +89,15 @@ import ItemViewComponent from '@/components/ItemView'
     },
     emptyView(){
         this.viewItem = null;
-    }    
+    }
   },
   computed : {
   },
   components : {
       TitleComponent,
       SubMenuComponent,
-      ItemViewComponent
+      ItemViewComponent,
+      PaginationComponent
   },
   data (){
    return{
@@ -60,157 +105,29 @@ import ItemViewComponent from '@/components/ItemView'
     titleEng : "Honorary Doctor",
     titleKor : "명예박사 소개",
     menuIndex : 0,
+    page : 1,
+    galleryCount:8,
     viewItem : null,
     is_show : false,
     subMenu : [
         {name:"총장", category:"president"},
         {name:"이사장", category:"chairman"}
     ],
-    currentList : [],
-    itemList : [
-        {
-            idx : '1',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '2',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/frymire.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '3',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/fruits.png',
-            title : '제 1~5대 숭산 박길진 총장',
-        },
-        {
-            idx : '4',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/pool.png',
-            title : '제 5~6대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '5',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/zelda.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '6',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/baboon.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '7',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/cat.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '8',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '9',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/boat.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '10',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '11',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '12',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/girl.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '13',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/goldhill.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '14',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '15',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '16',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '17',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '18',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/boat.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '19',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '20',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/girl.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '21',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '22',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },        
-        {
-            idx : '23',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 1~4대 숭산 박길진 총장',
-        },
-        {
-            idx : '24',
-            img : 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-            title : '제 3~5대 숭산 박길진2 총장',
-        },              
-    ]
+    searchList : [],
+    itemList : []
    }
   }
  }
 </script>
 <style scoped lang="scss">
-    .Pagination{
-        .btn{
-            display: inline-block;
-            width:2em;
-            height:2em;
-            line-height: 2em;
-            margin:0 3px;
-            color:#fff;
-            border:1px solid #eee;
-            text-align: center;
-            &.active{
-                background:#eee;
-                color:#222;
-            }
-        }
-    }
+
     .Gallery{
+        &__pagination{
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:2em;
+        }
         &__list{
             margin-top:3em;
             &:after{

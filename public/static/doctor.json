@@ -1,0 +1,112 @@
+[
+	{
+		"category" : "president",
+		"list" : [
+			{
+				"idx" : "1",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "2",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/frymire.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "3",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/fruits.png",
+				"title" : "제 1~5대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "4",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/pool.png",
+				"title" : "제 5~6대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "5",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "6",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/baboon.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "7",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/cat.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "8",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "9",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/boat.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "10",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "11",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "12",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/girl.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "13",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/goldhill.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			}  
+		]		
+	},
+	{
+		"category" : "chairman",
+		"list" : [
+			{
+				"idx" : "1",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "2",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/frymire.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "3",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/fruits.png",
+				"title" : "제 1~5대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "4",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/pool.png",
+				"title" : "제 5~6대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "5",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			},
+			{
+				"idx" : "6",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/baboon.png",
+				"title" : "제 3~5대 숭산 박길진2 총장"
+			},        
+			{
+				"idx" : "7",
+				"img" : "https://homepages.cae.wisc.edu/~ece533/images/cat.png",
+				"title" : "제 1~4대 숭산 박길진 총장"
+			}
+		]		
+	}	
+]
