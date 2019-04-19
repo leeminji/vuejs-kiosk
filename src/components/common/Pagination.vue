@@ -1,7 +1,8 @@
 <template>
     <div class="Pagination">
         <button class="Pagination__btn Pagination__btn-prev" @click="pageStart" v-if="startPage > 1">처음</button>
-        <button class="Pagination__btn Pagination__btn-prev" @click="pagePrev" v-if="indexPage > 1">이전</button>
+        <button class="Pagination__btn Pagination__btn-prev" @click="pagePrev" v-if="getPrevPage">이전</button>
+        
         <button 
         class="Pagination__num" 
         v-for="n in setPageStart" 
@@ -9,8 +10,8 @@
         v-bind:class="{'Pagination__num-active' : indexPage == n }"
         @click="pageOn(n)">{{n}}</button>
 
-        <button class="Pagination__btn Pagination__btn-next" @click="pageNext" v-if="indexPage < pageTotalCount">다음</button>
-        <button class="Pagination__btn Pagination__btn-next" @click="pageEnd" v-if="endPage < pageTotalCount">끝</button>
+        <button class="Pagination__btn Pagination__btn-next" @click="pageNext" v-if="getNextPage">다음</button>
+        <button class="Pagination__btn Pagination__btn-next" @click="pageEnd" v-if="endPage < pageTotalCount ">끝</button>
     </div>
 </template>
 <script>
@@ -25,6 +26,14 @@ export default {
                 arr.push(i);
             }
             return arr; 
+        },
+        getNextPage(){
+            //그룹을 찾아서 같은 그룹인지 판별!
+            return Math.ceil(this.indexPage/this.perPage) != Math.ceil(this.pageTotalCount / this.perPage);
+        },
+        getPrevPage(){
+            //그룹을 찾아서 같은 그룹인지 판별!
+            return Math.ceil(this.indexPage/this.perPage) != Math.ceil(1 / this.perPage);          
         }
     },
     data(){
@@ -36,7 +45,6 @@ export default {
         }
     },
     created(){
-       
     },
     mounted(){
         let totalpage = Math.floor(this.totalCount / this.perList);
@@ -44,19 +52,13 @@ export default {
             totalpage++;
         }
         this.pageTotalCount = totalpage;
-        console.log('mounted');
-
-         this.pageSetting();
+        this.pageSetting();
     },
     methods : {
         pageSetting(){
             let startTemp = 0;
-            //나머지가 있는경우는 -1 을 해줘야한다. 그래야 바르게 동작..
-            if( this.indexPage % this.perPage != 0){
-                startTemp = Math.floor((this.indexPage)/this.perPage);
-            }else{
-                startTemp = Math.floor((this.indexPage)/this.perPage)-1;
-            }
+
+            startTemp = Math.ceil((this.indexPage)/this.perPage)-1;
             this.startPage =(this.perPage* startTemp)+1;
             this.endPage = this.startPage + this.perPage -1;
 
@@ -73,11 +75,16 @@ export default {
             this.pageSetting();
         },
         pagePrev(){
-            this.indexPage--;
+            //this.indexPage--;
+            this.indexPage = (Math.ceil((this.indexPage/this.perPage))-1)*this.perPage;
             this.pageSetting();
         },
         pageNext(){
-            this.indexPage++;
+            this.indexPage = Math.ceil((this.indexPage/this.perPage))*this.perPage+1;
+            if( this.indexPage > this.pageTotalCount ){
+                this.indexPage = this.pageTotalCount;
+            }
+            //console.log(this.indexPage);
             this.pageSetting();
         },
         pageOn(num){

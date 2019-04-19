@@ -18,9 +18,9 @@
     <PaginationComponent 
         class="Gallery__pagination" 
         @pageOn="pageOn"
-        :totalCount="itemList.length" 
+        :totalCount="181"
         :perPage="5"
-        :perList="galleryCount">
+        :perList="10">
     </PaginationComponent>
     
     <transition name="rounter-main" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
@@ -69,7 +69,6 @@ import PaginationComponent from '@/components/common/Pagination'
         //현재페이지 리스트만 보임
         this.searchList = this.itemList.filter((item, index)=>{
             if( index >= (this.page-1)* this.galleryCount && index < this.page*this.galleryCount ){
-                console.log(index);
                 return item; 
             }
         });
