@@ -61,8 +61,6 @@
 		props : ["searchInput"],
 		methods : {
 			btnDownkey(key){
-				
-				console.log(key);
 				this.$emit("btnDownkey", key);
 			}
 		},
